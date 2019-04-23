@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.itcast.travel.mapper.UserRegisterMapper">
+
+    <!--更新激活状态-->
+    <!--<update id="activeBySetStatus">
+        update tab_user set status='Y' where code=#{code}
+    </update>-->
+
+
+
+    <!-- 检验用户名是否已经存在 -->
+    <!--<select id="queryUserByUserName" resultType="User">
+        select *from tab_user where username=#{username}
+    </select>-->
+<!--
+    <insert id="addUser">
+        INSERT INTO tab_user (
+            username,
+            password,
+            name,
+            birthday,
+            sex,
+            telephone,
+            email,
+            status,
+            code
+        )
+        VALUES
+            (
+            #{userName},
+            #{password},
+            #{name},
+            #{birthday},
+            #{sex},
+            #{telephone},
+            #{email},
+            #{status},
+            #{code}
+	);
+    </insert>-->
+
+
+    <!--通过code查找是否存在此人-->
+    <!--<select id="queryUserByUserCode" resultType="cn.itcast.travel.pojo.User">
+        select *from tab_user where code=#{code}
+    </select>-->
+</mapper>

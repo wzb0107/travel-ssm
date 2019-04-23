@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+   mapper标签:配置各类声明
+   namespace：名称空间，由于映射文件可能有多个，为了防止crud语句的唯一标识被重复，需要设置空间名称。
+ -->
+
+<mapper namespace="cn.itcast.travel.mapper.RouteMapper">
+    <!--
+        select:查询的statement（声明），用来编写查询语句
+        id:语句的唯一标识
+        resultType：配置返回的结果集类型
+        parameterType：传递的参数类型，可以省略
+    -->
+    <select id="popularity" resultType="Route">
+        select *from tab_route where rflag ='1' ORDER BY count desc limit 0,4
+    </select>
+
+    <select id="themes" resultType="Route">
+        select *from tab_route where isThemeTour = '1' and rflag = '1' limit 0,4
+    </select>
+
+
+    <select id="news" resultType="Route">
+        select *from tab_route where rflag = '1' order by rdate limit 0,4
+    </select>
+
+    <select id="queryCategoryList" resultType="Category">
+        select *from tab_category order by cid
+    </select>
+
+    <select id="queryRouteCount" resultType="integer">
+        select count(*)from tab_route where rflag = '1'
+        <if test="cid!=null">
+            and cid=#{cid}
+        </if>
+        <if test="rname!=null and rname.trim()!=''">
+            and rname like '%' #{rname} '%'
+        </if>
+    </select>
+
+
+    <select id="queryRouteList" resultType="Route">
+        select *from tab_route where rflag ='1'
+        <if test="cid !=null">
+            and cid=#{cid}
+        </if>
+        <if test="rname!=null and rname.trim()!=''">
+            and rname like '%' #{rname} '%'
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+
+    <resultMap id="routeMap" type="Route" autoMapping="true">
+        <id property="rid" column="rid"/>
+
+        <association property="category" javaType="Category" autoMapping="true">
+            <id column="cid" property="cid"/>
+        </association>
+
+        <association property="seller" javaType="Seller" autoMapping="true">
+            <id property="sid" column="sid"/>
+        </association>
+
+        <collection property="routeImgList" javaType="List" ofType="RouteImg" autoMapping="true">
+            <id property="rgid" column="rgid"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="findRouteByRid" resultMap="routeMap">
+    SELECT * FROM tab_route r
+        INNER JOIN tab_category c ON c.cid=r.cid
+        INNER JOIN tab_seller s ON r.sid = s.sid
+        INNER JOIN tab_route_img i ON r.rid = i.rid
+    WHERE
+	        r.rid = #{rid}
+    </select>
+
+    <update id="updateRouteCountByRid">
+        update tab_route set count = count+1 where rid=#{rid}
+    </update>
+
+    <select id="queryRouteCountByRid" resultType="java.lang.Integer">
+        select count(*) from tab_route where rid=#{rid}
+    </select>
+</mapper>

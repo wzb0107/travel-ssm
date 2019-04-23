@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+    <settings>
+        <!-- 开启驼峰命名匹配方式 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <plugins>
+        <!--配置分页拦截器-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--配置分页实现类-->
+            <property name="dialect" value="com.github.pagehelper.PageHelper"/>
+        </plugin>
+
+        <!--配置通用mapper拦截器-->
+        <plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
+            <property name="mappers" value="com.github.abel533.mapper.Mapper"/>
+        </plugin>
+    </plugins>
+
+</configuration>
